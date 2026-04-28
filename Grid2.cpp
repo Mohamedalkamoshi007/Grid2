@@ -208,4 +208,30 @@ void printPath(int indexx){
 
 }
 
+int bestGreedy(){
+    int best=-1;
+    for(int i=0;i<nodeCount;i++){
+    if(nodes[i].h!=1000){
+      if(best==-1 || nodes[i].h<nodes[best].h){
+        best=i;
+
+      }
+    }
+}
+return best;
+}
+
+int bestAstar(){
+    int best=-1;
+    for(int i=0;i<nodeCount;i++){
+        if(nodes[i].f!=1000){
+         if(best==-1 || nodes[i].f<nodes[best].f){
+           best=i;
+         }
+      }
+
+    }
+    return best;
+}
+
 };
