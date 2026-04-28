@@ -170,4 +170,42 @@ int heuristic1(State s){
     return total;
 
 }
+int heuristic2(State s){
+ int mx=manhattan(s.x,s.y,1,1);
+ if(s.c1=='f'){
+  mx=maxValue(mx,manhattan(s.x,s.y,coinX[0],coinY[0]));
+ }
+  if(s.c2=='f'){
+  mx=maxValue(mx,manhattan(s.x,s.y,coinX[1],coinY[1]));
+ }
+  if(s.c3=='f'){
+  mx=maxValue(mx,manhattan(s.x,s.y,coinX[2],coinY[2]));
+ }
+  if(s.c4=='f'){
+  mx=maxValue(mx,manhattan(s.x,s.y,coinX[3],coinY[3]));
+ }
+ return mx;
+}
+
+void printPath(int indexx){
+    int path[PATH_LIMIT];
+    int length=0;
+    
+    while(indexx!=-1){
+        path[length]=indexx;
+        length++;
+        indexx=nodes[indexx].parent;
+
+    }
+    cout<<"\nPATH:"<<endl;
+    for(int i=length-1;1>=0;i--){
+        nodes[path[i]].state.print();
+        cout<<endl;
+
+    }
+    cout<<"\nCost = "<<length-1<<endl;
+    cout<<"Visited States = "<<nodeCount<<endl;
+
+}
+
 };
