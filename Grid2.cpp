@@ -124,7 +124,7 @@ if(s.x==coinX[3] && s.y==coinY[3]){
 
 void refillFuel(State &s){
 if(s.x==fuelX && s.y==fuelY){
-s.fuel=20;
+s.fuel=MAX_FUEL;
 }
 }
 
@@ -198,7 +198,7 @@ void printPath(int indexx){
 
     }
     cout<<"\nPATH:"<<endl;
-    for(int i=length-1;1>=0;i--){
+    for(int i=length-1;i>=0;i--){
         nodes[path[i]].state.print();
         cout<<endl;
 
@@ -324,7 +324,7 @@ void Greedy(State start)
 
         while(true)
         {
-            int current=bestAStar();
+            int current=bestAstar();
 
             if(current==-1)
             {
@@ -356,7 +356,7 @@ void Greedy(State start)
                 next.y +=dy[i];
                 next.fuel--;
 
-                if(next.x<0  next.x>=SIZE  next.y<0 || next.y>=SIZE)
+                if(next.x<0 || next.x >=SIZE || next.y<0 || next.y>=SIZE)
                 {
                     continue;
                 }
