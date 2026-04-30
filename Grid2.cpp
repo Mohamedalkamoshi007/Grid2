@@ -99,7 +99,7 @@ bool visited(State s){
 }
 
 bool BlockedCheck(int x,int y){
-    if((x==2 && y==2) || (x==3 && y==3) || (x==4 && y==4)){
+    if((x==2 && y==2) || (x==3 && y==3) || (x==4 && y==4)){ 
         return true;
 
     }
@@ -142,7 +142,7 @@ int heuristic1(State s){
     int cy=s.y;
     int total=0;
     for(int step=0;step<4;step++){
-        int dis=1000;
+        int dis=999999;
         int index=-1;
         for(int i=0;i<4;i++){
             if(!taken[i]){
@@ -211,7 +211,7 @@ void printPath(int indexx){
 int bestGreedy(){
     int best=-1;
     for(int i=0;i<nodeCount;i++){
-    if(nodes[i].h!=1000){
+    if(nodes[i].h!=999999){
       if(best==-1 || nodes[i].h<nodes[best].h){
         best=i;
 
@@ -224,7 +224,7 @@ return best;
 int bestAstar(){
     int best=-1;
     for(int i=0;i<nodeCount;i++){
-        if(nodes[i].f!=1000){
+        if(nodes[i].f!=999999){
          if(best==-1 || nodes[i].f<nodes[best].f){
            best=i;
          }
@@ -234,13 +234,20 @@ int bestAstar(){
     return best;
 }
 
-void Greedy(State start)
+void Greedy(State start,int choich)
     {
         nodeCount=0;
         nodes[0].state=start;
         nodes[0].parent=-1;
         nodes[0].g=0;
+
+        if(choich==1){
         nodes[0].h=heuristic1(start);
+        }
+        if(choich==2){
+            nodes[0].h=heuristic2(start);
+        }
+
         nodes[0].f=nodes[0].h;
         nodeCount++;
 
@@ -264,8 +271,8 @@ void Greedy(State start)
                 return;
             }
 
-            nodes[current].h=1000;
-            nodes[current].f=1000;
+            nodes[current].h=999999;
+            nodes[current].f=999999;
 
             int dx[4]={-1,1,0,0};
             int dy[4]={0,0,-1,1};
@@ -302,7 +309,13 @@ void Greedy(State start)
                     nodes[nodeCount].state=next;
                     nodes[nodeCount].parent=current;
                     nodes[nodeCount].g=nodes[current].g+1;
+                    if(choich==1){
                     nodes[nodeCount].h=heuristic1(next);
+                    }
+                    if(choich==2){
+                    nodes[nodeCount].h=heuristic2(next);
+                    }
+
                     nodes[nodeCount].f=nodes[nodeCount].h;
                     nodeCount++;
                 }
@@ -312,13 +325,20 @@ void Greedy(State start)
         cout<<"No Solution\n";
     }
 
-    void AStar(State start)
+    void AStar(State start,int choich)
     {
         nodeCount=0;
         nodes[0].state=start;
         nodes[0].parent=-1;
         nodes[0].g=0;
+        
+        if(choich==1){
+        nodes[0].h=heuristic1(start);
+        }
+        if(choich==2){
         nodes[0].h=heuristic2(start);
+        }
+
         nodes[0].f=nodes[0].h;
         nodeCount++;
 
@@ -344,7 +364,7 @@ void Greedy(State start)
                 return;
             }
 
-            nodes[current].f=1000;
+            nodes[current].f=999999;
 
             int dx[4]={-1,1,0,0};
             int dy[4]={0,0,-1,1};
@@ -379,7 +399,13 @@ void Greedy(State start)
                     nodes[nodeCount].state=next;
                     nodes[nodeCount].parent=current;
                     nodes[nodeCount].g=nodes[current].g+1;
+                    if(choich==1){
+                    nodes[nodeCount].h=heuristic1(next);
+                    }
+                    if(choich==2){
                     nodes[nodeCount].h=heuristic2(next);
+                    }
+
                     nodes[nodeCount].f=nodes[nodeCount].g+nodes[nodeCount].h;
                     nodeCount++;
                 }
@@ -409,6 +435,16 @@ int main()
     game.updateCoins(start);
     game.refillFuel(start);
 
-        game.Greedy(start);
-        game.AStar(start);
+cout<<"Greedy using H2"<<endl;
+game.Greedy(start,2);
+cout<<"A* using H2"<<endl;
+game.AStar(start,2);
+cout<<endl;
+cout<<"Greedy using H1"<<endl;
+game.Greedy(start,1);
+cout<<endl;
+cout<<"A* using H1"<<endl;
+game.AStar(start,1);
+
+
 }
