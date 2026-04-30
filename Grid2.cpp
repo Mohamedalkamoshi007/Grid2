@@ -312,4 +312,80 @@ void Greedy(State start)
         cout<<"No Solution\n";
     }
 
+    void AStar(State start)
+    {
+        nodeCount=0;
+        nodes[0].state=start;
+        nodes[0].parent=-1;
+        nodes[0].g=0;
+        nodes[0].h=heuristic2(start);
+        nodes[0].f=nodes[0].h;
+        nodeCount++;
+
+        while(true)
+        {
+            int current=bestAStar();
+
+            if(current==-1)
+            {
+                break;
+            }
+
+            State s=nodes[current].state;
+
+            cout<<"Visited: ";
+            s.print();
+            cout<<endl;
+
+            if(s.Goalcheck())
+            {
+                cout<<"\nGoal Found Using A* Search\n";
+                printPath(current);
+                return;
+            }
+
+            nodes[current].f=1000;
+
+            int dx[4]={-1,1,0,0};
+            int dy[4]={0,0,-1,1};
+
+            for(int i=0;i<4;i++)
+            {
+                State next=s;
+                next.x +=dx[i];
+                next.y +=dy[i];
+                next.fuel--;
+
+                if(next.x<0  next.x>=SIZE  next.y<0 || next.y>=SIZE)
+                {
+                    continue;
+                }
+
+                if(BlockedCheck(next.x,next.y))
+                {
+                    continue;
+                }
+
+                if(next.fuel<0)
+                {
+                    continue;
+                }
+
+                updateCoins(next);
+                refillFuel(next);
+
+                if(!visited(next))
+                {
+                    nodes[nodeCount].state=next;
+                    nodes[nodeCount].parent=current;
+                    nodes[nodeCount].g=nodes[current].g+1;
+                    nodes[nodeCount].h=heuristic2(next);
+                    nodes[nodeCount].f=nodes[nodeCount].g+nodes[nodeCount].h;
+                    nodeCount++;
+                }
+            }
+        }
+
+        cout<<"No Solution\n";
+    }
 };
