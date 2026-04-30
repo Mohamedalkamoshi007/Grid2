@@ -389,3 +389,26 @@ void Greedy(State start)
         cout<<"No Solution\n";
     }
 };
+int main()
+{
+    GridGame game;
+    State start;
+    cout<<"Enter Start X: ";
+    cin>>start.x;
+
+    cout<<"Enter Start Y: ";
+    cin>>start.y;
+
+    cout<<"Enter Fuel: ";
+    cin>>start.fuel;
+
+    start.c1 = 'f';
+    start.c2 = 'f';
+    start.c3 = 'f';
+    start.c4 = 'f';
+    game.updateCoins(start);
+    game.refillFuel(start);
+
+        game.Greedy(start);
+        game.AStar(start);
+}
